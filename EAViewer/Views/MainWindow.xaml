@@ -65,7 +65,9 @@
                       HorizontalScrollBarVisibility="Auto" 
                       VerticalScrollBarVisibility="Auto"
                       Background="#F5F5F5"
-                      MouseLeftButtonDown="Canvas_MouseLeftButtonDown">
+                      PreviewMouseLeftButtonDown="Canvas_PreviewMouseLeftButtonDown"
+                      PreviewMouseMove="Canvas_PreviewMouseMove"
+                      PreviewMouseLeftButtonUp="Canvas_PreviewMouseLeftButtonUp">
             <ItemsControl ItemsSource="{Binding TableGrids}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
