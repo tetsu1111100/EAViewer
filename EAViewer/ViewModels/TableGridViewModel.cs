@@ -96,6 +96,16 @@ public partial class TableGridViewModel : ObservableObject
     [ObservableProperty]
     private bool _isLowerCaseColName;
 
+    private static int _globalZIndex = 0;
+
+    [ObservableProperty]
+    private int _zIndex;
+
+    public void BringToFront()
+    {
+        ZIndex = System.Threading.Interlocked.Increment(ref _globalZIndex);
+    }
+
     public ObservableCollection<TableDetailRow> Rows { get; } = new();
 
     public TableGridViewModel(
@@ -106,6 +116,8 @@ public partial class TableGridViewModel : ObservableObject
     {
         TableInfo = tableInfo ?? throw new ArgumentNullException(nameof(tableInfo));
         _tableService = tableService ?? throw new ArgumentNullException(nameof(tableService));
+
+        BringToFront();
 
         // Build color map
         foreach (var c in colors)

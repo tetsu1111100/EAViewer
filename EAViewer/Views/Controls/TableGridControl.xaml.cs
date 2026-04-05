@@ -37,6 +37,8 @@ public partial class TableGridControl : UserControl
     {
         if (DataContext is not TableGridViewModel vm) return;
 
+        vm.BringToFront();
+
         _isDragging = true;
         _dragStartPoint = e.GetPosition(this.Parent as UIElement);
         _originX = vm.CanvasX;

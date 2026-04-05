@@ -80,6 +80,7 @@
                     <Style TargetType="ContentPresenter">
                         <Setter Property="Canvas.Left" Value="{Binding CanvasX}"/>
                         <Setter Property="Canvas.Top" Value="{Binding CanvasY}"/>
+                        <Setter Property="Panel.ZIndex" Value="{Binding ZIndex}"/>
                     </Style>
                 </ItemsControl.ItemContainerStyle>
                 <ItemsControl.ItemTemplate>
