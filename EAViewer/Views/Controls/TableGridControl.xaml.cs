@@ -51,8 +51,12 @@ public partial class TableGridControl : UserControl
         if (!_isDragging || DataContext is not TableGridViewModel vm) return;
 
         var currentPos = e.GetPosition(this.Parent as UIElement);
-        vm.CanvasX = _originX + (currentPos.X - _dragStartPoint.X);
-        vm.CanvasY = _originY + (currentPos.Y - _dragStartPoint.Y);
+        double newX = _originX + (currentPos.X - _dragStartPoint.X);
+        double newY = _originY + (currentPos.Y - _dragStartPoint.Y);
+
+        // Prevent dragging out of the top/left bounds so the title bar isn't lost
+        vm.CanvasX = System.Math.Max(0, newX);
+        vm.CanvasY = System.Math.Max(0, newY);
     }
 
     private void TitleBar_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
