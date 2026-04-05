@@ -1,0 +1,2 @@
+# EAViewer
+這是一個幫助工程師用來管理SQL Server Table的工具，可以幫助使用者快速輸入Table名稱後進行Table Schema檢索的工具，並且使用者可以針對特定資料進行顏色標記，幫助快速掌握與分類資料。
