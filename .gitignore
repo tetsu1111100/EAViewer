@@ -47,6 +47,7 @@ secrets.json
 
 # appsettings 
 appsettings.Development.json
+appsettings.json
 
 # Others
 *.tmp
