@@ -12,8 +12,17 @@ public sealed class TableInfo
     public string? Remark { get; set; }
 
     /// <summary>
-    /// Generates the display title: [DbHost].[DbName].[TableName] TableDesc
+    /// Generates the display title: TableName - TableDesc - [DbHost].[DbName]
     /// </summary>
-    public string DisplayTitle =>
-        $"[{DbHost}].[{DbName}].[{TableName}] {TableDesc ?? string.Empty}".TrimEnd();
+    public string DisplayTitle 
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(TableDesc))
+            {
+                return $"{TableName} - [{DbHost}].[{DbName}]";
+            }
+            return $"{TableName} - {TableDesc} - [{DbHost}].[{DbName}]";
+        }
+    }
 }
