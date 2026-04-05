@@ -53,7 +53,7 @@
                            VerticalAlignment="Center"/>
 
                 <!-- Lowercase CheckBox -->
-                <CheckBox Content="ColName 轉小寫"
+                <CheckBox Content="Lowercase column name"
                           IsChecked="{Binding IsLowerCaseColName}"
                           VerticalAlignment="Center"/>
             </WrapPanel>
