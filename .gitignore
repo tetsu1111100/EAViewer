@@ -1,0 +1,54 @@
+# Build results
+bin/
+obj/
+
+# Temp
+.vs/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# Logs
+*.log
+
+# Publish outputs
+publish/
+out/
+
+# Test results
+TestResults/
+*.coverage
+*.coveragexml
+
+# Entity Framework
+Migrations/
+
+# Local secrets 
+secrets.json
+
+# appsettings 
+appsettings.Development.json
+
+# Others
+*.tmp
+*.bak
+*.swp
