@@ -13,16 +13,44 @@ public partial class TableGridControl : UserControl
     private Point _dragStartPoint;
     private double _originX, _originY;
 
-    // Predefined color palette for right-click menu
+    // Predefined color palette for right-click menu (21 Macaron colors)
     private static readonly (string Name, string Rgb)[] ColorPalette = new[]
     {
-        ("🔴 紅色", "rgb(255, 99, 99)"),
-        ("🟠 橘色", "rgb(255, 165, 0)"),
-        ("🟡 黃色", "rgb(255, 191, 0)"),
-        ("🟢 綠色", "rgb(144, 238, 144)"),
-        ("🔵 藍色", "rgb(135, 206, 250)"),
-        ("🟣 紫色", "rgb(200, 162, 255)"),
-        ("⚪ 灰色", "rgb(211, 211, 211)"),
+        // Pink
+        ("🌸 櫻花粉", "rgb(253, 203, 212)"),
+        ("🎀 蜜糖粉", "rgb(255, 182, 193)"),
+        ("🍧 芭菲粉", "rgb(255, 228, 225)"),
+
+        // Orange
+        ("🍑 蜜桃橘", "rgb(255, 218, 185)"),
+        ("🍊 珊瑚橘", "rgb(255, 160, 122)"),
+        ("🍮 焦糖杏", "rgb(255, 235, 205)"),
+
+        // Yellow
+        ("🍋 檸檬黃", "rgb(255, 250, 205)"),
+        ("🌻 奶油黃", "rgb(255, 239, 150)"),
+        ("🌼 雛菊黃", "rgb(255, 248, 220)"),
+
+        // Green
+        ("🌿 薄荷綠", "rgb(193, 240, 193)"),
+        ("🍵 抹茶綠", "rgb(162, 228, 184)"),
+        ("🍈 哈密綠", "rgb(224, 255, 224)"),
+
+        // Blue
+        ("☁️ 奶油藍", "rgb(197, 224, 251)"),
+        ("🌊 海水藍", "rgb(173, 216, 230)"),
+        ("🧊 冰塊藍", "rgb(240, 248, 255)"),
+
+        // Purple
+        ("🍠 香芋紫", "rgb(222, 202, 241)"),
+        ("🍇 葡萄紫", "rgb(216, 191, 216)"),
+        ("🔮 夢幻紫", "rgb(230, 230, 250)"),
+
+        // Gray / Neutral
+        ("🐘 霧米灰", "rgb(230, 230, 230)"),
+        ("☕ 奶茶灰", "rgb(211, 211, 211)"),
+        ("🦢 天鵝白", "rgb(245, 245, 245)"),
+
         ("⬜ 清除", ""),
     };
 
