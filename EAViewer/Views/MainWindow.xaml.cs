@@ -45,6 +45,7 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow
             // Start dragging the canvas when clicking on blank area
             _lastDragPoint = e.GetPosition(CanvasScrollViewer);
             CanvasScrollViewer.CaptureMouse();
+            CanvasScrollViewer.Cursor = Cursors.ScrollAll; // Changed to dragging icon
             e.Handled = true;
         }
     }
@@ -70,6 +71,7 @@ public partial class MainWindow : Wpf.Ui.Controls.FluentWindow
         if (CanvasScrollViewer.IsMouseCaptured)
         {
             CanvasScrollViewer.ReleaseMouseCapture();
+            CanvasScrollViewer.Cursor = Cursors.Arrow; // Reset cursor
             _lastDragPoint = null;
         }
     }
