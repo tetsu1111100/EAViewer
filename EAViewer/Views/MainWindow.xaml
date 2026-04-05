@@ -9,7 +9,8 @@
         MinWidth="800" MinHeight="600"
         WindowStartupLocation="CenterScreen"
         ExtendsContentIntoTitleBar="True"
-        WindowBackdropType="Mica">
+        WindowBackdropType="Mica"
+        Icon="/app.ico">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -19,7 +20,7 @@
         </Grid.RowDefinitions>
 
         <!-- Custom Title Bar -->
-        <ui:TitleBar Grid.Row="0" Title="EA Viewer" ShowMaximize="True" ShowMinimize="True"/>
+        <ui:TitleBar Grid.Row="0" Title="EA Viewer" ShowMaximize="True" ShowMinimize="True" Icon="/app.ico"/>
 
         <!-- Toolbar -->
         <Border Grid.Row="1" 
