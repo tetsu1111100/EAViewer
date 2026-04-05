@@ -1,0 +1,35 @@
+<ui:FluentWindow x:Class="EAViewer.Views.ColumnSearchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        Title="欄位搜尋"
+        Width="320" Height="120"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Topmost="True"
+        ExtendsContentIntoTitleBar="False">
+    <Grid Margin="16,12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Column="0" 
+                   x:Name="ColumnLabel"
+                   VerticalAlignment="Center" 
+                   Margin="0,0,8,0"
+                   FontWeight="SemiBold"/>
+        <ui:TextBox Grid.Column="1"
+                    x:Name="SearchInput"
+                    PlaceholderText="輸入搜尋文字..."
+                    KeyDown="SearchInput_KeyDown"
+                    VerticalAlignment="Center"/>
+        <ui:Button Grid.Column="2"
+                   Content="搜尋"
+                   Appearance="Primary"
+                   Click="SearchButton_Click"
+                   Margin="8,0,0,0"
+                   VerticalAlignment="Center"/>
+    </Grid>
+</ui:FluentWindow>
