@@ -96,15 +96,45 @@ public partial class TableGridControl : UserControl
             {
                 if (!Keyboard.IsKeyDown(Key.LeftCtrl) && !Keyboard.IsKeyDown(Key.RightCtrl))
                 {
-                    row.IsSelected = true;
+                    // If no Ctrl key, and clicked an already selected row, clear everything.
+                    if (row.IsSelected)
+                    {
+                        DetailGrid.UnselectAll();
+                        e.Handled = true; // Prevent DataGrid from selecting it again
+                    }
+                    else
+                    {
+                        // Clean unselect all and select only this one
+                        DetailGrid.UnselectAll();
+                        row.IsSelected = true;
+                        e.Handled = true;
+                    }
                 }
                 else
                 {
+                    // With Ctrl key, simply toggle
                     row.IsSelected = !row.IsSelected;
                     e.Handled = true;
                 }
             }
         }
+    }
+
+    private void DetailGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        var source = e.OriginalSource as DependencyObject;
+        
+        // If clicking scrollbar, ignore
+        if (FindParent<ScrollBar>(source) != null) return;
+        
+        // If clicking column header, ignore
+        if (FindParent<DataGridColumnHeader>(source) != null) return;
+
+        // If clicking a row/cell, Cell_PreviewMouseLeftButtonDown will handle logic
+        if (FindParent<DataGridRow>(source) != null) return;
+
+        // If it reaches here, it's a blank area inside the DataGrid
+        DetailGrid.UnselectAll();
     }
 
     #endregion
