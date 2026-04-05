@@ -55,6 +55,7 @@
                                Padding="2"
                                Margin="4,-4,-8,-4"
                                VerticalAlignment="Center"
+                               Cursor="Hand"
                                ToolTip="關閉表格"/>
                 </Grid>
             </Border>
