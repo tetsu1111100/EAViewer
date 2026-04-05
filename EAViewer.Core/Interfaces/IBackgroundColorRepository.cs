@@ -10,7 +10,8 @@ public interface IBackgroundColorRepository
     Task<IEnumerable<CellBackgroundColor>> GetBackgroundColorsAsync(string dbHost, string dbName, string tableName);
 
     /// <summary>
-    /// Saves (upserts) a collection of background colors in a single transaction.
+    /// Saves (replaces) a collection of background colors in a single transaction.
+    /// All existing colors for the table will be cleared before parsing the new ones.
     /// </summary>
-    Task SaveBackgroundColorsAsync(IEnumerable<CellBackgroundColor> colors);
+    Task SaveBackgroundColorsAsync(string dbHost, string dbName, string tableName, IEnumerable<CellBackgroundColor> colors);
 }

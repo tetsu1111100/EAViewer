@@ -178,15 +178,8 @@ public partial class TableGridViewModel : ObservableObject
                 AddColorIfSet(colorsToSave, row, row.RemarkBackground, "Remark");
             }
 
-            if (colorsToSave.Count > 0)
-            {
-                await _tableService.SaveBackgroundColorsAsync(colorsToSave);
-                MessageBox.Show("背景色儲存成功！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
-            {
-                MessageBox.Show("沒有需要儲存的背景色設定。", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            await _tableService.SaveBackgroundColorsAsync(TableInfo.DbHost, TableInfo.DbName, TableInfo.TableName, colorsToSave);
+            MessageBox.Show("背景色儲存成功！", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         catch (Exception ex)
         {

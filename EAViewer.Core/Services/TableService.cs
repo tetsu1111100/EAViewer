@@ -45,8 +45,8 @@ public sealed class TableService
     /// <summary>
     /// Saves background colors for a table grid.
     /// </summary>
-    public async Task SaveBackgroundColorsAsync(IEnumerable<CellBackgroundColor> colors)
+    public async Task SaveBackgroundColorsAsync(string dbHost, string dbName, string tableName, IEnumerable<CellBackgroundColor> colors)
     {
-        await _backgroundColorRepository.SaveBackgroundColorsAsync(colors);
+        await _backgroundColorRepository.SaveBackgroundColorsAsync(dbHost, dbName, tableName, colors);
     }
 }
