@@ -275,22 +275,7 @@ public partial class TableGridControl : UserControl
 
     #region Column Header Click for Search
 
-    protected override void OnInitialized(EventArgs e)
-    {
-        base.OnInitialized(e);
-        DetailGrid.Loaded += (s, args) =>
-        {
-            // Attach click handlers to column headers
-            foreach (var column in DetailGrid.Columns)
-            {
-                var header = GetColumnHeader(DetailGrid, column);
-                if (header != null)
-                {
-                    header.PreviewMouseLeftButtonUp += ColumnHeader_Click;
-                }
-            }
-        };
-    }
+    private string _popupTargetProperty = string.Empty;
 
     private void ColumnHeader_Click(object sender, MouseButtonEventArgs e)
     {
@@ -298,7 +283,7 @@ public partial class TableGridControl : UserControl
         if (DataContext is not TableGridViewModel vm) return;
 
         string columnName = header.Content?.ToString() ?? string.Empty;
-        string targetProp = columnName switch
+        _popupTargetProperty = columnName switch
         {
             "欄位" => "ColName",
             "說明" => "ColDesc",
@@ -306,27 +291,110 @@ public partial class TableGridControl : UserControl
             _ => string.Empty
         };
 
-        if (string.IsNullOrEmpty(targetProp)) return;
+        if (string.IsNullOrEmpty(_popupTargetProperty)) return;
 
-        var searchWindow = new ColumnSearchWindow(vm, targetProp, columnName, DetailGrid)
-        {
-            Owner = Window.GetWindow(this)
-        };
-        searchWindow.Show();
+        PopupColumnLabel.Text = $"搜尋欄位 : 「 {columnName} 」";
+        PopupSearchInput.Text = string.Empty;
+        SearchPopup.IsOpen = true;
     }
 
-    private static DataGridColumnHeader? GetColumnHeader(DataGrid grid, DataGridColumn column)
+    private void SearchPopup_Opened(object sender, EventArgs e)
     {
-        var headersPresenter = FindVisualChild<DataGridColumnHeadersPresenter>(grid);
-        if (headersPresenter == null) return null;
-
-        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(headersPresenter); i++)
+        PopupSearchInput.Focus();
+        // Hook window-level mouse down to catch clicks on blank canvas that might be marked as e.Handled=true
+        var window = Window.GetWindow(this);
+        if (window != null)
         {
-            var child = VisualTreeHelper.GetChild(headersPresenter, i);
-            if (child is DataGridColumnHeader h && h.Column == column)
-                return h;
+            window.PreviewMouseDown += Window_PreviewMouseDown;
         }
-        return null;
+    }
+
+    private void SearchPopup_Closed(object sender, EventArgs e)
+    {
+        var window = Window.GetWindow(this);
+        if (window != null)
+        {
+            window.PreviewMouseDown -= Window_PreviewMouseDown;
+        }
+    }
+
+    private void Window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        // If clicking outside the popup, close it
+        if (SearchPopup.IsOpen && !SearchPopup.Child.IsMouseOver)
+        {
+            SearchPopup.IsOpen = false;
+        }
+    }
+
+    private void ClosePopup_Click(object sender, RoutedEventArgs e)
+    {
+        SearchPopup.IsOpen = false;
+    }
+
+    private void PopupSearchInput_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            PerformPopupSearch();
+        }
+        else if (e.Key == Key.Escape)
+        {
+            SearchPopup.IsOpen = false;
+        }
+    }
+
+    private void PopupSearchButton_Click(object sender, RoutedEventArgs e)
+    {
+        PerformPopupSearch();
+    }
+
+    private void PerformPopupSearch()
+    {
+        if (DataContext is not TableGridViewModel vm) return;
+        
+        var keyword = PopupSearchInput.Text?.Trim();
+        if (string.IsNullOrEmpty(keyword))
+        {
+            SearchPopup.IsOpen = false;
+            return;
+        }
+
+        // Clear previous highlights and selection
+        DetailGrid.UnselectAll();
+        foreach (var row in vm.Rows)
+        {
+            row.IsHighlighted = false;
+        }
+
+        TableDetailRow? lastMatch = null;
+
+        foreach (var row in vm.Rows)
+        {
+            string value = _popupTargetProperty switch
+            {
+                "ColName" => row.DisplayColName ?? string.Empty,
+                "ColDesc" => row.ColDesc ?? string.Empty,
+                "Remark" => row.Remark ?? string.Empty,
+                _ => string.Empty
+            };
+
+            if (value.Contains(keyword, StringComparison.OrdinalIgnoreCase))
+            {
+                row.IsHighlighted = true;
+                DetailGrid.SelectedItems.Add(row);
+                lastMatch = row;
+            }
+        }
+
+        // Scroll to last match
+        if (lastMatch != null)
+        {
+            DetailGrid.ScrollIntoView(lastMatch);
+        }
+
+        // Auto-close popup
+        SearchPopup.IsOpen = false;
     }
 
     #endregion

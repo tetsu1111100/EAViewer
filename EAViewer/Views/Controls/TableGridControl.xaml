@@ -128,6 +128,7 @@
                         <Setter Property="BorderBrush" Value="#D0D0D0"/>
                         <Setter Property="BorderThickness" Value="0,0,1,1"/>
                         <Setter Property="Cursor" Value="Hand"/>
+                        <EventSetter Event="PreviewMouseLeftButtonUp" Handler="ColumnHeader_Click"/>
                     </Style>
                 </DataGrid.ColumnHeaderStyle>
 
@@ -248,6 +249,73 @@
                     </ControlTemplate>
                 </Thumb.Template>
             </Thumb>
+
+            <!-- Search Popup (WPF Popup doesn't cause OS window switching) -->
+            <Popup x:Name="SearchPopup"
+                   Placement="Center"
+                   PlacementTarget="{Binding ElementName=DetailGrid}"
+                   StaysOpen="False"
+                   AllowsTransparency="True"
+                   Focusable="True"
+                   Opened="SearchPopup_Opened"
+                   Closed="SearchPopup_Closed">
+                <Border Background="White" 
+                        BorderBrush="#D0D0D0" 
+                        BorderThickness="1" 
+                        CornerRadius="6" 
+                        Padding="12,10"
+                        Width="280">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Opacity="0.15" BlurRadius="8" Direction="270" ShadowDepth="3"/>
+                    </Border.Effect>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!-- Header -->
+                        <Grid Grid.Row="0" Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Horizontal" Grid.Column="0" VerticalAlignment="Center">
+                                <ui:SymbolIcon Symbol="Search20" Foreground="#0078D4" Margin="0,0,6,0"/>
+                                <TextBlock x:Name="PopupColumnLabel" FontWeight="Bold" Foreground="#333" FontSize="12"/>
+                            </StackPanel>
+                            <ui:Button Grid.Column="1" 
+                                       Icon="{ui:SymbolIcon Dismiss20}" 
+                                       Appearance="Transparent" 
+                                       Padding="2" 
+                                       Margin="8,-4,-4,0" 
+                                       Click="ClosePopup_Click"
+                                       Cursor="Hand"/>
+                        </Grid>
+                        
+                        <!-- Input Row -->
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ui:TextBox Grid.Column="0"
+                                        x:Name="PopupSearchInput"
+                                        PlaceholderText="輸入搜尋文字..."
+                                        KeyDown="PopupSearchInput_KeyDown"
+                                        VerticalAlignment="Center"/>
+                            <ui:Button Grid.Column="1"
+                                       Content="搜尋"
+                                       Appearance="Primary"
+                                       Click="PopupSearchButton_Click"
+                                       Margin="8,0,0,0"
+                                       Padding="10,4"
+                                       VerticalAlignment="Center"/>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Popup>
         </Grid>
     </Border>
 </UserControl>

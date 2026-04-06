@@ -5,7 +5,7 @@ using EAViewer.ViewModels;
 
 namespace EAViewer.Views;
 
-public partial class ColumnSearchWindow : Wpf.Ui.Controls.FluentWindow
+public partial class ColumnSearchWindow : Window
 {
     private readonly TableGridViewModel _gridViewModel;
     private readonly string _targetProperty;
@@ -22,7 +22,7 @@ public partial class ColumnSearchWindow : Wpf.Ui.Controls.FluentWindow
         _targetProperty = targetProperty;
         _dataGrid = dataGrid;
 
-        ColumnLabel.Text = $"{columnDisplayName}:";
+        ColumnLabel.Text = $"搜尋欄位 : 「 {columnDisplayName} 」";
         SearchInput.Focus();
     }
 
@@ -34,6 +34,19 @@ public partial class ColumnSearchWindow : Wpf.Ui.Controls.FluentWindow
         }
         else if (e.Key == Key.Escape)
         {
+            SafeClose();
+        }
+    }
+
+    private bool _isClosing = false;
+
+    private void SafeClose()
+    {
+        if (!_isClosing)
+        {
+            _isClosing = true;
+            // Explicitly activate owner to prevent focus jumping to other apps
+            Owner?.Activate();
             Close();
         }
     }
@@ -43,12 +56,24 @@ public partial class ColumnSearchWindow : Wpf.Ui.Controls.FluentWindow
         PerformSearch();
     }
 
+    private void CloseButton_Click(object sender, RoutedEventArgs e)
+    {
+        SafeClose();
+    }
+
+    private void Window_Deactivated(object sender, EventArgs e)
+    {
+        // Close window if clicked outside of it
+        SafeClose();
+    }
+
     private void PerformSearch()
     {
         var keyword = SearchInput.Text?.Trim();
         if (string.IsNullOrEmpty(keyword)) return;
 
-        // Clear previous highlights
+        // Clear previous highlights and selection
+        _dataGrid.UnselectAll();
         foreach (var row in _gridViewModel.Rows)
         {
             row.IsHighlighted = false;
@@ -79,5 +104,8 @@ public partial class ColumnSearchWindow : Wpf.Ui.Controls.FluentWindow
         {
             _dataGrid.ScrollIntoView(lastMatch);
         }
+
+        // Auto-close search window after completing the search
+        SafeClose();
     }
 }
